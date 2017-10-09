@@ -1,6 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'; 
+import evented from "./mixins/events"
 class GestureView extends React.Component {
     static propTypes = {
         gestures: PropTypes.array,
