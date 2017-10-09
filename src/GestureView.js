@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'; 
-class GestureView extends react.Component {
+class GestureView extends React.Component {
     static propTypes = {
         gestures: PropTypes.array,
         onLayout: PropTypes.func,
