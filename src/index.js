@@ -6,7 +6,7 @@ import eventedDecorator from "./mixins/events"
 import dragGesture from "./drag"
 import pinchGesture from "./pinch"
 
-import GestureView from "./gesture-view"
+import GestureView from "./GestureView"
 
 import generalResponder from "./responders/general"
 import oneFingerResponder from "./responders/one-finger"
