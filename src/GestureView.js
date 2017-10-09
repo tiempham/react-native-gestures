@@ -1,59 +1,63 @@
-import events from './mixins/events'
-import draggableMixin from './mixins/draggable'
-import React, {
-  PropTypes
-} from 'react'
-import {
-  View,
-  Image
-} from 'react-native'
-
-export default React.createClass({
-  mixins: [events(['onLayout']), draggableMixin()],
-
-  propTypes: {
-    gestures: PropTypes.array.isRequired,
-    onError: PropTypes.func.isRequired,
-    toStyle: PropTypes.func.isRequired,
-    style: PropTypes.any,
-    children: PropTypes.array,
-    type: PropTypes.oneOf([
-      'View',
-      'Image'
-    ]),
-    source: PropTypes.any
-  },
-
-  componentDidMount () {
-    this.layoutStream.subscribe(
-      (layout) => this.container.setNativeProps({
-        style: this.props.toStyle(layout)
-      }),
-      (err) => this.props.onError(err)
-    )
-  },
-
-  render () {
-    let props = {
-      ref: (container) => this.container = container,
-      style: this.props.style,
-      onLayout: ({nativeEvent}) => {
-        this.onLayout.onNext(nativeEvent)
-      },
-      type: this.props.type || 'View',
-      source: this.props.source,
-      ...this.gestureResponder.panHandlers
+class GestureView extends Component {
+    static propTypes = {
+        gestures: PropTypes.array,
+        onLayout: PropTypes.func,
+        onError: PropTypes.func,
+        streams: PropTypes.object,
+        layout: PropTypes.object,
+        responder: PropTypes.object,
     }
-    return (
-      <View>
-        {this.props.type === 'View' ? (
-          <View {...props}>
-            {this.props.children}
-          </View>
-        ) : (
-          <Image {...props} />
-        )}
-      </View>
-    )
-  }
-})
+
+    static defaultProps = {
+        gestures: [],
+        onLayout: layout => ({
+            top: layout.y,
+            left: layout.x,
+            width: layout.width,
+            height: layout.height,
+            transform: [
+                {
+                    rotate: layout.rotate + "deg",
+                },
+            ],
+        }),
+        onError: () => {},
+        streams: {},
+        layout: null,
+        responder: null,
+    }
+
+    componentWillReceiveProps(props) {
+        props.layout.subscribe(
+            layout => {
+                this.container.setNativeProps({
+                    style: props.onLayout(layout),
+                })
+            },
+            error => {
+                props.onError(error)
+            },
+        )
+    }
+
+    render() {
+        if (!this.props.responder) {
+            return null
+        }
+
+        const props = {
+            ...this.props,
+            ...this.props.responder.panHandlers,
+            ref: container => {
+                this.container = container
+            },
+            onLayout: event => {
+                this.props.streams.onLayout.onNext(event.nativeEvent)
+            },
+        }
+
+        return <View {...props}>{this.props.children}</View>
+    }
+}
+
+export default evented(draggable(GestureView), ["onLayout"])
