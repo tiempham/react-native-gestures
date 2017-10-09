@@ -3,8 +3,8 @@ import create from "./create"
 import draggableDecorator from "./mixins/draggable"
 import eventedDecorator from "./mixins/events"
 
-import dragGesture from "./gestures/drag"
-import pinchGesture from "./gestures/pinch"
+import dragGesture from "./drag"
+import pinchGesture from "./pinch"
 
 import GestureView from "./gesture-view"
 
