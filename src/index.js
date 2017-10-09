@@ -9,8 +9,8 @@ import pinchGesture from "./pinch"
 import GestureView from "./GestureView"
 
 import generalResponder from "./responders/general"
-import oneFingerResponder from "./responders/one-finger"
-import twoFingerResponder from "./responders/two-finger"
+import oneFingerResponder from "./responders/oneFinger"
+import twoFingerResponder from "./responders/twoFinger"
 
 const Decorators = {
     draggable: draggableDecorator,
