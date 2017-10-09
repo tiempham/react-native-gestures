@@ -1,7 +1,7 @@
 import create from "./create"
 
-import draggableDecorator from "./decorators/draggable"
-import eventedDecorator from "./decorators/evented"
+import draggableDecorator from "./mixins/draggable"
+import eventedDecorator from "./mixins/evented"
 
 import dragGesture from "./gestures/drag"
 import pinchGesture from "./gestures/pinch"
