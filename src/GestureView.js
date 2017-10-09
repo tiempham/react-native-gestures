@@ -1,4 +1,17 @@
-class GestureView extends Component {
+import React from 'react'
+import {
+  Alert,
+  Animated,
+  Dimensions,
+  FlatList,
+  Image,
+  ImageBackground,
+  ScrollView,
+  TouchableOpacity,
+  View
+
+} from 'react-native'
+class GestureView extends react.Component {
     static propTypes = {
         gestures: PropTypes.array,
         onLayout: PropTypes.func,
