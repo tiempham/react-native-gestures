@@ -27,7 +27,9 @@ in other libraries...
 * Install via npm
 
 ```bash
-npm i -S react-native-gestures
+npm i -S https://github.com/tiempham/react-native-gestures
+or
+yarn add https://github.com/tiempham/react-native-gestures
 ```
 
 Then write some js like the simple code samples as a React component
