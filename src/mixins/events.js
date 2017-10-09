@@ -1,17 +1,33 @@
-import Rx from 'rx'
+import React, { Component } from "react"
+import Rx from "rx"
 
-export default function events (evs = []) {
-  return {
-    componentWillMount () {
-      var streams = evs.reduce(function (res, eventName) {
-        res[eventName] = new Rx.Subject()
-        return res
-      }, {})
+export default (Decorated, eventNames = []) =>
+    class extends Component {
+        static displayName = "Evented Decorator"
 
-      Object.assign(this, streams, {__streams: streams})
-    },
-    componentWillUnmount () {
-      evs.forEach((ev) => this.__streams[ev].onCompleted())
+        state = {
+            streams: {},
+        }
+
+        componentDidMount() {
+            let streams = {}
+
+            eventNames.forEach(eventName => {
+                streams[eventName] = new Rx.Subject()
+            })
+
+            this.setState({
+                streams,
+            })
+        }
+
+        componentWillUnmount() {
+            eventNames.forEach(eventName => {
+                this.state.streams[eventName].onCompleted()
+            })
+        }
+
+        render() {
+            return <Decorated {...this.props} streams={this.state.streams} />
+        }
     }
-  }
-}
